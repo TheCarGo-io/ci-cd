@@ -6,6 +6,10 @@ on:
       branch:
         required: true
         type: string
+    secrets:
+      personal_access_token:
+        required: true
+
 jobs:
   deploy:
     runs-on: [self-hosted, linux, docker]
