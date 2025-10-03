@@ -21,10 +21,10 @@ jobs:
         run: |
           if [ "${{ inputs.branch }}" = "dev" ]; then
               echo "Deploying Backend DEV"
-              cd /home/ubuntu/projects/dev
+              cd /home/ubuntu/projects/dev/backend
             elif [ "${{ inputs.branch }}" = "master" ]; then
               echo "Deploying Backend PROD"
-              cd /home/ubuntu/projects/thecargo
+              cd /home/ubuntu/projects/thecargo/backend
             else
               echo "Unknown branch: ${{ inputs.branch }}"
               exit 1
