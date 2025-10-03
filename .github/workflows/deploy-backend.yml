@@ -1,0 +1,32 @@
+name: Deploy Dev Backend
+
+on:
+  workflow_call:
+    inputs:
+      branch:
+        required: true
+        type: string
+jobs:
+  deploy:
+    runs-on: [self-hosted, linux, docker]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy backend
+        run: |
+          if [ "${{ inputs.branch }}" = "dev" ]; then
+              echo "Deploying Backend DEV"
+              cd /home/ubuntu/projects/dev
+            elif [ "${{ inputs.branch }}" = "master" ]; then
+              echo "Deploying Backend PROD"
+              cd /home/ubuntu/projects/thecargo
+            else
+              echo "Unknown branch: ${{ inputs.branch }}"
+              exit 1
+            fi
+          git pull
+
+          cd ..
+
+          docker compose -f docker.backend.yml up -d --build
