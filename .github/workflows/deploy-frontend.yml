@@ -33,4 +33,4 @@ jobs:
 
           cd ..
 
-          docker compose -f docker.shipper.yml run --remove-orphans --rm react-build
+          docker compose -f docker.shipper.yml run --rm react-build
