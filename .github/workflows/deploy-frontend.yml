@@ -21,12 +21,12 @@ jobs:
         run: |
           if [ "${{ inputs.branch }}" = "dev" ]; then
               echo "Deploying Backend DEV"
-              cd /home/ubuntu/projects/dev
+              cd /home/ubuntu/projects/dev/frontend
               git pull
               sudo /home/ubuntu/projects/dev/frontend/deploy.sh production demo-shipper
             elif [ "${{ inputs.branch }}" = "main" ]; then
               echo "Deploying Backend PROD"
-              cd /home/ubuntu/projects/thecargo
+              cd /home/ubuntu/projects/thecargo/frontend
               git pull
               sudo /home/ubuntu/projects/thecargo/frontend/deploy.sh production shipper
             else
