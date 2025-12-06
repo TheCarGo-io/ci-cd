@@ -1,8 +1,14 @@
-name: Deploy Pay Front
+name: Deploy Pay Frontend
 
 on:
-  push:
-    branches: [ "master" ]
+  workflow_call:
+    inputs:
+      branch:
+        required: true
+        type: string
+    secrets:
+      personal_access_token:
+        required: true
 
 jobs:
   deploy:
@@ -11,11 +17,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GH_PAT }}
+          token: ${{ secrets.personal_access_token }}
 
       - name: Deploy Pay Frontend
         env:
-          GITHUB_PAT: ${{ secrets.GH_PAT }}
+          GITHUB_PAT: ${{ secrets.personal_access_token }}
         run: |
           echo "Deploying PAY Frontend PROD"
           cd /home/ubuntu/projects/thecargo/pay-to-orders
