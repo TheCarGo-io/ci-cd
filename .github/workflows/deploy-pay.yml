@@ -1,14 +1,8 @@
-name: Deploy Pay Frontend
+name: Deploy Pay Front
 
 on:
-  workflow_call:
-    inputs:
-      branch:
-        required: true
-        type: string
-    secrets:
-      personal_access_token:
-        required: true
+  push:
+    branches: [ "master" ]
 
 jobs:
   deploy:
@@ -16,10 +10,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GH_PAT }}
 
       - name: Deploy Pay Frontend
+        env:
+          GITHUB_PAT: ${{ secrets.GH_PAT }}
         run: |
           echo "Deploying PAY Frontend PROD"
           cd /home/ubuntu/projects/thecargo/pay-to-orders
+          git config remote.origin.url "https://${GITHUB_PAT}@github.com/TheCarGo-io/pay-to-orders.git"
           git pull
           sudo /home/ubuntu/projects/thecargo/pay-to-orders/deploy.sh
