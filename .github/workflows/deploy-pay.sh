@@ -1,0 +1,25 @@
+name: Deploy Pay Frontend
+
+on:
+  workflow_call:
+    inputs:
+      branch:
+        required: true
+        type: string
+    secrets:
+      personal_access_token:
+        required: true
+
+jobs:
+  deploy:
+    runs-on: [self-hosted, Linux, X64]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy Pay Frontend
+        run: |
+          echo "Deploying PAY Frontend PROD"
+          cd /home/ubuntu/projects/thecargo/pay-to-orders
+          git pull
+          sudo /home/ubuntu/projects/thecargo/pay-to-orders/deploy.sh
