@@ -25,6 +25,5 @@ jobs:
         run: |
           echo "Deploying PAY Frontend PROD"
           cd /home/ubuntu/projects/thecargo/pay-to-orders
-          git config remote.origin.url "https://${GITHUB_PAT}@github.com/TheCarGo-io/pay-to-orders.git"
           git pull
           sudo /home/ubuntu/projects/thecargo/pay-to-orders/deploy.sh
