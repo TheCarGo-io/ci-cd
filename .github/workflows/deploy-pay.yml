@@ -21,4 +21,4 @@ jobs:
         run: |
           echo "Deploying PAY Frontend PROD"
           cd /home/ubuntu/projects/thecargo/pay-to-orders
-          sudo /home/ubuntu/projects/thecargo/pay-to-orders/deploy.sh
+          /home/ubuntu/projects/thecargo/pay-to-orders/deploy.sh
