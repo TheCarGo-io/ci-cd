@@ -22,12 +22,12 @@ jobs:
           if [ "${{ inputs.branch }}" = "dev" ]; then
             echo "Deploying voice detector DEV"
             cd /home/ubuntu/projects/dev/voice-detector
-            git pull
+            git pull origin dev
             docker compose -f development.yml up -d --build
           elif [ "${{ inputs.branch }}" = "master" ]; then
             echo "Deploying voice detector PROD"
             cd /home/ubuntu/projects/thecargo/voice-detector
-            git pull
+            git pull origin master
             docker compose -f production.yml up -d --build
           else
             echo "Unknown branch: ${{ inputs.branch }}"
