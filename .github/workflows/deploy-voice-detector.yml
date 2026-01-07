@@ -1,1 +1,35 @@
+name: Deploy Voice detector
 
+on:
+  workflow_call:
+    inputs:
+      branch:
+        required: true
+        type: string
+    secrets:
+      personal_access_token:
+        required: true
+
+jobs:
+  deploy:
+    runs-on: [self-hosted, Linux, X64]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy voice detector
+        run: |
+          if [ "${{ inputs.branch }}" = "dev" ]; then
+            echo "Deploying voice detector DEV"
+            cd /home/ubuntu/projects/dev/voice-detector
+            git pull
+            docker-compose -f development.yml up -d --build
+          elif [ "${{ inputs.branch }}" = "master" ]; then
+            echo "Deploying voice detector PROD"
+            cd /home/ubuntu/projects/thecargo/voice-detector
+            git pull
+            docker-compose -f production.yml up -d --build
+          else
+            echo "Unknown branch: ${{ inputs.branch }}"
+            exit 1
+          fi
