@@ -1,0 +1,37 @@
+name: Deploy AI agent
+
+on:
+  workflow_call:
+    inputs:
+      branch:
+        required: true
+        type: string
+    secrets:
+      personal_access_token:
+        required: true
+
+jobs:
+  deploy:
+    runs-on: [self-hosted, Linux, X64]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy AI agent
+        run: |
+          if [ "${{ inputs.branch }}" = "dev" ]; then
+            echo "Deploying AI agent DEV"
+            cd /home/ubuntu/projects/dev/ai-agent
+            git pull origin dev
+            docker compose -f development.yml down --remove-orphans
+            docker compose -f development.yml up -d --build
+          elif [ "${{ inputs.branch }}" = "master" ]; then
+            echo "Deploying AI agent PROD"
+            cd /home/ubuntu/projects/thecargo/ai-agent
+            git pull origin master
+            ocker compose -f production.yml down --remove-orphans
+            docker compose -f production.yml up -d --build
+          else
+            echo "Unknown branch: ${{ inputs.branch }}"
+            exit 1
+          fi
