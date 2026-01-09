@@ -19,8 +19,8 @@ jobs:
 
       - name: Deploy Order Tracking Frontend
         run: |
-          echo "Deploying TRACKING Frontend PROD"
-          cd /home/ubuntu/projects/thecargo/order-tracking
-          git fetch origin
-          git reset --hard origin/master
-          /home/ubuntu/projects/thecargo/order-tracking/deploy.sh
+            echo "Deploying TRACKING Frontend PROD"
+            cd /home/ubuntu/projects/thecargo/order-tracking
+            git fetch origin
+            git reset --hard origin/master
+            /home/ubuntu/projects/thecargo/order-tracking/deploy.sh
