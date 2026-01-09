@@ -1,8 +1,26 @@
-- name: Deploy Order Tracking Frontend
-    run: |
-      echo "Deploying TRACKING Frontend PROD"
-      cd /home/ubuntu/projects/thecargo/order-tracking
-      git fetch origin
-      git reset --hard origin/master
-      npm install
-      npm run build
+name: Deploy Pay Frontend
+
+on:
+  workflow_call:
+    inputs:
+      branch:
+        required: true
+        type: string
+    secrets:
+      personal_access_token:
+        required: true
+
+jobs:
+  deploy:
+    runs-on: [self-hosted, Linux, X64]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy Order Tracking Frontend
+        run: |
+          echo "Deploying TRACKING Frontend PROD"
+          cd /home/ubuntu/projects/thecargo/order-tracking
+          git fetch origin
+          git reset --hard origin/master
+          /home/ubuntu/projects/thecargo/order-tracking/deploy.sh
