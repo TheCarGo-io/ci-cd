@@ -9,6 +9,10 @@ on:
     secrets:
       personal_access_token:
         required: true
+      cloudflare_api_token:                                                                                                                                                                             
+        required: true                                                                                                                                                                                  
+      cloudflare_account_id:                                                                                                                                                                            
+        required: true
 
 jobs:
   deploy:
