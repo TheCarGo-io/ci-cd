@@ -1,0 +1,34 @@
+name: Deploy Socket
+
+on:
+  workflow_call:
+    inputs:
+      branch:
+        required: true
+        type: string
+    secrets:
+      personal_access_token:
+        required: true
+
+jobs:
+  deploy:
+    runs-on: [self-hosted, Linux, X64]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy socket
+        run: |
+          if [ "${{ inputs.branch }}" = "dev" ]; then
+              echo "Deploying Socket DEV"
+              cd /home/ubuntu/projects/dev/socket
+          elif [ "${{ inputs.branch }}" = "master" ]; then
+            echo "Deploying Socket PROD"
+            cd /home/ubuntu/projects/thecargo/socket
+          else
+            echo "Unknown branch: ${{ inputs.branch }}"
+            exit 1
+          fi
+          git pull
+
+          docker compose -f docker.backend.yml up -d --build
