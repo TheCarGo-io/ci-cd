@@ -31,4 +31,4 @@ jobs:
           fi
           git pull
 
-          docker compose -f docker.backend.yml up -d --build
+          docker compose -f production.yml up -d --build
