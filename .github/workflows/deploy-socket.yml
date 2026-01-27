@@ -20,15 +20,16 @@ jobs:
       - name: Deploy socket
         run: |
           if [ "${{ inputs.branch }}" = "dev" ]; then
-              echo "Deploying Socket DEV"
-              cd /home/ubuntu/projects/dev/socket
+            echo "Deploying Socket DEV"
+            cd /home/ubuntu/projects/dev/socket
+            git pull
+            docker compose -f development.yml up -d --build
           elif [ "${{ inputs.branch }}" = "master" ]; then
             echo "Deploying Socket PROD"
             cd /home/ubuntu/projects/thecargo/socket
+            git pull
+            docker compose -f production.yml up -d --build
           else
             echo "Unknown branch: ${{ inputs.branch }}"
             exit 1
           fi
-          git pull
-
-          docker compose -f production.yml up -d --build
