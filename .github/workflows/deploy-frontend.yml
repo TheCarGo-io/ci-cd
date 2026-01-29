@@ -27,18 +27,25 @@ jobs:
           git clean -fd 2>/dev/null || true
           rm -f .env.bak 2>/dev/null || true
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
       - name: Deploy frontend
         run: |
           if [ "${{ inputs.branch }}" = "dev" ]; then
               echo "Deploying Frontend DEV."
               cd /home/ubuntu/projects/dev/frontend
               git pull
-              /home/ubuntu/projects/dev/frontend/deploy.sh production demo-shipper
+              npm ci
+              npm run build
           elif [ "${{ inputs.branch }}" = "main" ]; then
               echo "Deploying Frontend PROD."
               cd /home/ubuntu/projects/thecargo/frontend
               git pull
-              /home/ubuntu/projects/thecargo/frontend/deploy.sh production shipper
+              npm ci
+              npm run build
           else
               echo "Unknown branch: ${{ inputs.branch }}"
               exit 1
