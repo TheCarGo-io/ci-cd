@@ -38,14 +38,14 @@ jobs:
               echo "Deploying Frontend DEV."
               cd /home/ubuntu/projects/dev/frontend
               git pull
-              rm -rf node_modules
+              sudo rm -rf node_modules
               npm ci
               npm run build
           elif [ "${{ inputs.branch }}" = "main" ]; then
               echo "Deploying Frontend PROD."
               cd /home/ubuntu/projects/thecargo/frontend
               git pull
-              rm -rf node_modules
+              sudo rm -rf node_modules
               npm ci
               npm run build
           else
