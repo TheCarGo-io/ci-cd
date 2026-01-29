@@ -21,15 +21,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Clean workspace                                                                                                                                                                                 
+        run: |                                                                                                                                                                                                
+          git checkout --. 2>/dev/null || true                                                                                                                                                               
+          git clean -fd 2>/dev/null || true                                                                                                                                                                   
+          rm -f .env.bak 2>/dev/null || true    
+
       - name: Deploy frontend
         run: |
           if [ "${{ inputs.branch }}" = "dev" ]; then
-              echo "Deploying Frontend DEV"
+              echo "Deploying Frontend DEV."
               cd /home/ubuntu/projects/dev/frontend
               git pull
               sudo /home/ubuntu/projects/dev/frontend/deploy.sh production demo-shipper
           elif [ "${{ inputs.branch }}" = "main" ]; then
-              echo "Deploying Frontend PROD"
+              echo "Deploying Frontend PROD."
               cd /home/ubuntu/projects/thecargo/frontend
               git pull
               sudo /home/ubuntu/projects/thecargo/frontend/deploy.sh production shipper
