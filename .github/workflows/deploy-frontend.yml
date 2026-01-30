@@ -1,39 +1,44 @@
-name: Deploy Frontend
-
-on:
-  workflow_call:
-    inputs:
-      branch:
-        required: true
-        type: string
-    secrets:
-      personal_access_token:
-        required: true
-      cloudflare_api_token:                                                                                                                                                                             
-        required: true                                                                                                                                                                                  
-      cloudflare_account_id:                                                                                                                                                                            
-        required: true
-
-jobs:
-  deploy:
-    runs-on: [self-hosted, Linux, X64]
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Deploy frontend
-        run: |
-          if [ "${{ inputs.branch }}" = "dev" ]; then
-              echo "Deploying Frontend DEV"
-              cd /home/ubuntu/projects/dev/frontend
-              git pull
-              sudo /home/ubuntu/projects/dev/frontend/deploy.sh production demo-shipper
-          elif [ "${{ inputs.branch }}" = "main" ]; then
-              echo "Deploying Frontend PROD"
-              cd /home/ubuntu/projects/thecargo/frontend
-              git pull
-              sudo /home/ubuntu/projects/thecargo/frontend/deploy.sh production shipper
-          else
-              echo "Unknown branch: ${{ inputs.branch }}"
-              exit 1
-            fi
+name: Deploy Frontend                                                                                                                                      
+                                                                                                                                                             
+on:                                                                                                                                                        
+  workflow_call:                                                                                                                                           
+    inputs:                                                                                                                                                
+      branch:                                                                                                                                              
+        required: true                                                                                                                                     
+        type: string                                                                                                                                       
+    secrets:                                                                                                                                               
+      personal_access_token:                                                                                                                               
+        required: true                                                                                                                                     
+      cloudflare_api_token:                                                                                                                                
+        required: true                                                                                                                                     
+      cloudflare_account_id:                                                                                                                               
+        required: true                                                                                                                                     
+                                                                                                                                                           
+jobs:                                                                                                                                                      
+  deploy:                                                                                                                                                  
+    runs-on: [self-hosted, Linux, X64]                                                                                                                     
+                                                                                                                                                           
+    steps:                                                                                                                                                 
+      - uses: actions/checkout@v4                                                                                                                          
+                                                                                                                                                           
+      - name: Setup Node.js                                                                                                                                
+        uses: actions/setup-node@v4                                                                                                                        
+        with:                                                                                                                                              
+          node-version: '20'                                                                                                                               
+                                                                                                                                                           
+      - name: Deploy frontend                                                                                                                              
+        run: |                                                                                                                                             
+          if [ "${{ inputs.branch }}" = "dev" ]; then                                                                                                      
+              echo "🚀 Deploying Frontend DEV"                                                                                                             
+              cd /home/ubuntu/projects/dev/frontend                                                                                                        
+              git pull                                                                                                                                     
+              ./deploy.sh ci demo-shipper                                                                                                                  
+          elif [ "${{ inputs.branch }}" = "main" ]; then                                                                                                   
+              echo "🚀 Deploying Frontend PROD"                                                                                                            
+              cd /home/ubuntu/projects/thecargo/frontend                                                                                                   
+              git pull                                                                                                                                     
+              ./deploy.sh ci shipper                                                                                                                       
+          else                                                                                                                                             
+              echo "❌ Unknown branch: ${{ inputs.branch }}"                                                                                               
+              exit 1                                                                                                                                       
+          fi                           
